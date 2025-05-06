@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Threading;
+using AkashicCodex;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 
-namespace CodemuseAI
+namespace AkashicCodex
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(CodemuseAIPackage.PackageGuidString)]
@@ -15,12 +16,21 @@ namespace CodemuseAI
 
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            // Switch to the main thread for VS Shell operations.
-            await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            try
+            {
+                await AIAutomationCommand.InitializeAsync(this);
+                await VSProjectManager.InitializeAsync(this);
 
-            // ✅ Initialize All Necessary Commands
-            await AIAutomationCommand.InitializeAsync(this);
-            await VSProjectManager.InitializeAsync(this); // <-- Missing before
+                await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+                ActivityLog.LogInformation("AkadhicCodexPackage", "Initialization successful.");
+            }
+            catch (Exception ex)
+            {
+                await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+                ActivityLog.LogError("AkadhicCodexPackage", $"Initialization failed: {ex.Message}\n{ex.StackTrace}");
+                throw;
+            }
         }
     }
 }
+
