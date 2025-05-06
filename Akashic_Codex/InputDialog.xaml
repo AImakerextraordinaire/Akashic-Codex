@@ -1,0 +1,31 @@
+﻿<Window x:Class="CodemuseAI.InputDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Codemuse AI - Input" Height="180" Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Grid>
+        <TextBlock Name="lblMessage" Text="Enter Input:" 
+                   VerticalAlignment="Top" HorizontalAlignment="Left" 
+                   Margin="10,10,0,0" FontSize="14"/>
+
+        <TextBox Name="txtInput" 
+                 Width="360" Height="30" 
+                 Margin="10,40,10,0" 
+                 VerticalAlignment="Top" 
+                 FontSize="14"/>
+
+        <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="0,90,10,0">
+
+            <Button Name="btnOK" Content="OK" Width="80" Height="30"
+                    Click="BtnOK_Click"/>
+
+            <Button Name="btnCancel" Content="Cancel" Width="80" Height="30"
+                    Margin="10,0,0,0" Click="BtnCancel_Click"/>
+
+        </StackPanel>
+    </Grid>
+</Window>
